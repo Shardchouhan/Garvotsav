@@ -49,10 +49,12 @@ const MockData = {
 
 const GarvotsavAPI = {
     async fetchSheetData(sheetName) {
+        const mockKey = sheetName.toLowerCase();
+
         if (USE_MOCK_DATA) {
             return new Promise(resolve => {
                 setTimeout(() => {
-                    resolve(MockData[sheetName.toLowerCase()] || []);
+                    resolve(MockData[mockKey] || []);
                 }, 800); // Simulate network delay
             });
         }
@@ -60,10 +62,16 @@ const GarvotsavAPI = {
         try {
             const response = await fetch(`${APPS_SCRIPT_URL}?action=getData&sheet=${sheetName}`);
             if (!response.ok) throw new Error('Network response was not ok');
-            return await response.json();
+            const data = await response.json();
+
+            if (Array.isArray(data) && data.length > 0) {
+                return data;
+            }
+
+            return MockData[mockKey] || [];
         } catch (error) {
             console.error(`Error fetching ${sheetName}:`, error);
-            return [];
+            return MockData[mockKey] || [];
         }
     },
 
