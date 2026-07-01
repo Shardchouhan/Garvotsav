@@ -84,6 +84,15 @@ const GarvotsavAPI = {
                 data.append(key, value);
             }
 
+            if (/script\.google\.com\/macros\/s\//i.test(APPS_SCRIPT_URL)) {
+                await fetch(APPS_SCRIPT_URL, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    body: data,
+                });
+                return { success: true, message: "Data submitted successfully" };
+            }
+
             const response = await fetch(APPS_SCRIPT_URL, {
                 method: 'POST',
                 body: data,
