@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Apply for Admission | Garvotsav Tuition Classes</title>
+    <title>Registration | Garvotsav Tuition Classes</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
@@ -33,97 +33,164 @@
         </div>
     </nav>
 
-    <main class="auth-section">
+    <main class="auth-section registration-section">
         <div class="container position-relative">
             <div class="row justify-content-center">
-                <div class="col-md-10 col-lg-7 col-xl-6" data-aos="fade-up">
-                    <div class="glass-card auth-card">
+                <div class="col-lg-9 col-xl-7" data-aos="fade-up">
+                    <div class="glass-card auth-card registration-card">
                         <div class="text-center mb-4">
                             <div class="auth-icon mb-3">
                                 <i class="fa-solid fa-file-signature"></i>
                             </div>
-                            <h1 class="font-heading fw-bold mb-2">Apply for Admission</h1>
+                            <h1 class="font-heading fw-bold mb-2">Student Registration</h1>
+                            <p class="text-muted mb-0">Submit the admission details below. No account is required.</p>
                         </div>
 
-                        <form data-auth-form data-submit-action="submitAdmission" data-success-message="Application submitted successfully! Redirecting to home page..." novalidate>
-                            <div class="alert d-none" data-auth-alert role="alert"></div>
+                        <form id="registrationForm" data-submit-action="submitAdmission" novalidate>
+                            <div class="alert d-none" id="registrationAlert" role="alert"></div>
 
-                            <div class="auth-form-stack">
-                                <div class="auth-field">
-                                    <label class="form-label" for="registerName">Student Full Name *</label>
-                                    <input type="text" class="form-control" id="registerName" name="fullName" placeholder="Enter student full name" autocomplete="name">
-                                    <div class="auth-error" aria-live="polite"></div>
+                            <section class="registration-group">
+                                <h2>Student Information</h2>
+                                <div class="registration-grid">
+                                    <div class="auth-field">
+                                        <label class="form-label" for="studentFirstName">Student First Name *</label>
+                                        <input type="text" class="form-control" id="studentFirstName" name="studentFirstName" required autocomplete="given-name">
+                                        <div class="auth-error" aria-live="polite"></div>
+                                    </div>
+                                    <div class="auth-field">
+                                        <label class="form-label" for="studentLastName">Student Last Name *</label>
+                                        <input type="text" class="form-control" id="studentLastName" name="studentLastName" required autocomplete="family-name">
+                                        <div class="auth-error" aria-live="polite"></div>
+                                    </div>
+                                    <div class="auth-field">
+                                        <label class="form-label" for="birthDate">Birth Date *</label>
+                                        <input type="date" class="form-control" id="birthDate" name="birthDate" required>
+                                        <div class="auth-error" aria-live="polite"></div>
+                                    </div>
+                                    <div class="auth-field">
+                                        <label class="form-label">Gender *</label>
+                                        <div class="radio-options">
+                                            <label><input type="radio" name="gender" value="Male" required> Male</label>
+                                            <label><input type="radio" name="gender" value="Female"> Female</label>
+                                            <label><input type="radio" name="gender" value="Other"> Other</label>
+                                        </div>
+                                        <div class="auth-error" aria-live="polite"></div>
+                                    </div>
                                 </div>
+                            </section>
 
-                                <div class="auth-field">
-                                    <label class="form-label" for="registerEmail">Email Address *</label>
-                                    <input type="email" class="form-control" id="registerEmail" name="email" placeholder="student@example.com" autocomplete="email">
-                                    <div class="auth-error" aria-live="polite"></div>
+                            <section class="registration-group">
+                                <h2>Academic Information</h2>
+                                <div class="registration-grid">
+                                    <div class="auth-field">
+                                        <label class="form-label" for="schoolName">School Name *</label>
+                                        <input type="text" class="form-control" id="schoolName" name="schoolName" required>
+                                        <div class="auth-error" aria-live="polite"></div>
+                                    </div>
+                                    <div class="auth-field">
+                                        <label class="form-label" for="board">Board *</label>
+                                        <select class="form-select" id="board" name="board" required>
+                                            <option value="">Select board</option>
+                                            <option value="CBSE">CBSE</option>
+                                            <option value="RBSE">RBSE</option>
+                                            <option value="ICSE">ICSE</option>
+                                        </select>
+                                        <div class="auth-error" aria-live="polite"></div>
+                                    </div>
                                 </div>
+                            </section>
 
-                                <div class="auth-field">
-                                    <label class="form-label" for="registerPhone">Phone Number *</label>
-                                    <input type="tel" class="form-control" id="registerPhone" name="phone" placeholder="9876543210" autocomplete="tel">
-                                    <div class="auth-error" aria-live="polite"></div>
+                            <section class="registration-group">
+                                <h2>Parent Information</h2>
+                                <div class="registration-grid">
+                                    <div class="auth-field">
+                                        <label class="form-label" for="fatherName">Father's Name *</label>
+                                        <input type="text" class="form-control" id="fatherName" name="fatherName" required>
+                                        <div class="auth-error" aria-live="polite"></div>
+                                    </div>
+                                    <div class="auth-field">
+                                        <label class="form-label" for="motherName">Mother's Name *</label>
+                                        <input type="text" class="form-control" id="motherName" name="motherName" required>
+                                        <div class="auth-error" aria-live="polite"></div>
+                                    </div>
+                                    <div class="auth-field">
+                                        <label class="form-label" for="parentOccupation">Parent's Occupation *</label>
+                                        <input type="text" class="form-control" id="parentOccupation" name="parentOccupation" required>
+                                        <div class="auth-error" aria-live="polite"></div>
+                                    </div>
+                                    <div class="auth-field">
+                                        <label class="form-label" for="annualFamilyIncome">Annual Family Income *</label>
+                                        <input type="number" class="form-control" id="annualFamilyIncome" name="annualFamilyIncome" min="0" step="1" required>
+                                        <div class="auth-error" aria-live="polite"></div>
+                                    </div>
                                 </div>
+                            </section>
 
-                                <div class="auth-field">
-                                    <label class="form-label" for="applyingClass">Applying For (Class) *</label>
-                                    <select class="form-select" id="applyingClass" name="applyingClass">
-                                        <option value="">Select class</option>
-                                        <option value="Class 8">Class 8</option>
-                                        <option value="Class 9">Class 9</option>
-                                        <option value="Class 10">Class 10</option>
-                                    </select>
-                                    <div class="auth-error" aria-live="polite"></div>
+                            <section class="registration-group">
+                                <h2>Contact Information</h2>
+                                <div class="registration-grid">
+                                    <div class="auth-field registration-span">
+                                        <label class="form-label" for="permanentAddress">Permanent Address *</label>
+                                        <textarea class="form-control" id="permanentAddress" name="permanentAddress" rows="4" required></textarea>
+                                        <div class="auth-error" aria-live="polite"></div>
+                                    </div>
+                                    <div class="auth-field">
+                                        <label class="form-label" for="emailAddress">Email Address</label>
+                                        <input type="email" class="form-control" id="emailAddress" name="emailAddress" autocomplete="email">
+                                        <div class="auth-error" aria-live="polite"></div>
+                                    </div>
+                                    <div class="auth-field">
+                                        <label class="form-label" for="mobileNumber">Mobile Number *</label>
+                                        <input type="tel" class="form-control" id="mobileNumber" name="mobileNumber" required autocomplete="tel">
+                                        <div class="auth-error" aria-live="polite"></div>
+                                    </div>
                                 </div>
+                            </section>
 
+                            <section class="registration-group">
+                                <h2>Residence Information</h2>
                                 <div class="auth-field">
-                                    <label class="form-label">Subjects *</label>
-                                    <div class="subject-options" data-subject-group>
-                                        <label class="subject-option">
-                                            <input type="checkbox" name="subject" value="Mathematics">
-                                            <span>Mathematics</span>
-                                        </label>
-                                        <label class="subject-option">
-                                            <input type="checkbox" name="subject" value="Science">
-                                            <span>Science</span>
-                                        </label>
+                                    <label class="form-label">Are you a resident of Mount Abu? *</label>
+                                    <div class="radio-options">
+                                        <label><input type="radio" name="mountAbuResident" value="Yes" required> Yes</label>
+                                        <label><input type="radio" name="mountAbuResident" value="No"> No</label>
                                     </div>
                                     <div class="auth-error" aria-live="polite"></div>
                                 </div>
+                            </section>
 
+                            <section class="registration-group">
+                                <h2>Declaration</h2>
+                                <p class="declaration-text">"I hereby declare that the information provided above is true to the best of my knowledge. Registration Fee is ₹1200."</p>
                                 <div class="auth-field">
-                                    <label class="form-label" for="registerPassword">Password *</label>
-                                    <div class="password-wrap">
-                                        <input type="password" class="form-control" id="registerPassword" name="password" placeholder="Minimum 6 characters" autocomplete="new-password">
-                                        <button type="button" class="password-toggle" data-toggle-password="registerPassword" aria-label="Show password">
-                                            <i class="fa-solid fa-eye"></i>
-                                        </button>
+                                    <div class="radio-options">
+                                        <label><input type="radio" name="declarationAccepted" value="Yes" required> Yes</label>
+                                        <label><input type="radio" name="declarationAccepted" value="No"> No</label>
                                     </div>
                                     <div class="auth-error" aria-live="polite"></div>
                                 </div>
+                            </section>
 
-                                <div class="auth-field">
-                                    <label class="form-label" for="confirmPassword">Confirm Password *</label>
-                                    <div class="password-wrap">
-                                        <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" placeholder="Re-enter password" autocomplete="new-password">
-                                        <button type="button" class="password-toggle" data-toggle-password="confirmPassword" aria-label="Show password">
-                                            <i class="fa-solid fa-eye"></i>
-                                        </button>
+                            <section class="registration-group">
+                                <h2>Payment Details</h2>
+                                <div class="registration-grid">
+                                    <div class="auth-field">
+                                        <label class="form-label" for="registrationFeeTransactionId">Registration Fee (₹1200) - Transaction ID *</label>
+                                        <input type="text" class="form-control" id="registrationFeeTransactionId" name="registrationFeeTransactionId" required>
+                                        <div class="auth-error" aria-live="polite"></div>
                                     </div>
-                                    <div class="auth-error" aria-live="polite"></div>
+                                    <div class="auth-field">
+                                        <label class="form-label" for="monthlyFeeTransactionId">Monthly Fee (Paid in Advance) - Transaction ID *</label>
+                                        <input type="text" class="form-control" id="monthlyFeeTransactionId" name="monthlyFeeTransactionId" required>
+                                        <div class="auth-error" aria-live="polite"></div>
+                                    </div>
                                 </div>
-                            </div>
+                            </section>
 
-                            <button type="submit" class="btn-premium btn-primary-gradient w-100 border-0 mt-3 py-3">
-                                Apply for Admission <i class="fa-solid fa-arrow-right ms-2"></i>
+                            <button type="submit" class="btn-premium btn-primary-gradient w-100 border-0 mt-3 py-3" id="registrationSubmitBtn">
+                                Submit Registration <i class="fa-solid fa-arrow-right ms-2"></i>
                             </button>
                         </form>
-
-                        <p class="auth-switch text-center mt-4 mb-0">
-                            Already have an account? <a href="login.html">Login here</a>
-                        </p>
                     </div>
                 </div>
             </div>
@@ -137,6 +204,6 @@
     <script src="../assets/js/api.js"></script>
     <script src="../components/footer.js?v=2"></script>
     <script src="../assets/js/main.js?v=2"></script>
-    <script src="../assets/js/auth.js"></script>
+    <script src="../assets/js/register.js"></script>
 </body>
 </html>

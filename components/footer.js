@@ -36,7 +36,7 @@ window.GARVOTSAV_FOOTER_TEMPLATE = `
                     <li><a href="{{pagePrefix}}courses.html#grade9">Class 9 Science</a></li>
                     <li><a href="{{pagePrefix}}courses.html#grade10">Class 10 Mathematics</a></li>
                     <li><a href="{{pagePrefix}}courses.html#grade10">Class 10 Science</a></li>
-                    <li><a href="{{pagePrefix}}courses.html#grade10">Class 10 Science</a></li>
+                    
                 </ul>
             </div>
 

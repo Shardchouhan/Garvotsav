@@ -47,18 +47,45 @@ function doPost(e) {
       .setMimeType(ContentService.MimeType.JSON);
 }
 
-// Helper: Accept single or multiple selected subjects and save them cleanly in one cell
-function getSelectedSubjects(e) {
-  if (e.parameters && e.parameters.subject && e.parameters.subject.length) {
-    return e.parameters.subject.join(', ');
-  }
+const ADMISSION_HEADERS = [
+  'Timestamp',
+  'Student First Name',
+  'Student Last Name',
+  'Birth Date',
+  'Gender',
+  'School Name',
+  'Board',
+  "Father's Name",
+  "Mother's Name",
+  "Parent's Occupation",
+  'Annual Family Income',
+  'Permanent Address',
+  'Email Address',
+  'Mobile Number',
+  'Mount Abu Resident',
+  'Declaration Accepted',
+  'Registration Fee Transaction ID',
+  'Monthly Fee Transaction ID'
+];
 
-  if (e.parameters && e.parameters['subject[]'] && e.parameters['subject[]'].length) {
-    return e.parameters['subject[]'].join(', ');
-  }
-
-  return e.parameter.subject || '';
-}
+const ADMISSION_REQUIRED_FIELDS = [
+  ['studentFirstName', 'Student First Name'],
+  ['studentLastName', 'Student Last Name'],
+  ['birthDate', 'Birth Date'],
+  ['gender', 'Gender'],
+  ['schoolName', 'School Name'],
+  ['board', 'Board'],
+  ['fatherName', "Father's Name"],
+  ['motherName', "Mother's Name"],
+  ['parentOccupation', "Parent's Occupation"],
+  ['annualFamilyIncome', 'Annual Family Income'],
+  ['permanentAddress', 'Permanent Address'],
+  ['mobileNumber', 'Mobile Number'],
+  ['mountAbuResident', 'Mount Abu Resident'],
+  ['declarationAccepted', 'Declaration Accepted'],
+  ['registrationFeeTransactionId', 'Registration Fee Transaction ID'],
+  ['monthlyFeeTransactionId', 'Monthly Fee Transaction ID']
+];
 
 // Helper: Get data from a specific sheet as an array of objects
 function getSheetData(sheetName) {
@@ -101,7 +128,13 @@ function handleFormSubmission(e, sheetName) {
       if (sheetName === 'Contact') {
         sheet.appendRow(['Timestamp', 'Name', 'Email', 'Phone', 'Subject', 'Message']);
       } else {
-        sheet.appendRow(['Timestamp', 'StudentName', 'Email', 'Phone', 'Class', 'Subjects']);
+        sheet.appendRow(ADMISSION_HEADERS);
+      }
+    } else if (sheetName === 'Admission') {
+      const existingHeaders = sheet.getRange(1, 1, 1, Math.max(sheet.getLastColumn(), ADMISSION_HEADERS.length)).getValues()[0];
+      const headersNeedUpdate = ADMISSION_HEADERS.some((header, index) => existingHeaders[index] !== header);
+      if (headersNeedUpdate) {
+        sheet.getRange(1, 1, 1, ADMISSION_HEADERS.length).setValues([ADMISSION_HEADERS]);
       }
     }
     
@@ -119,13 +152,43 @@ function handleFormSubmission(e, sheetName) {
         e.parameter.message || ''
       ];
     } else if (sheetName === 'Admission') {
+      const missingFields = ADMISSION_REQUIRED_FIELDS
+        .filter(([field]) => !String(e.parameter[field] || '').trim())
+        .map(([, label]) => label);
+
+      if (missingFields.length) {
+        return ContentService.createTextOutput(JSON.stringify({
+          success: false,
+          message: 'Missing required fields: ' + missingFields.join(', ')
+        })).setMimeType(ContentService.MimeType.JSON);
+      }
+
+      if (e.parameter.declarationAccepted !== 'Yes') {
+        return ContentService.createTextOutput(JSON.stringify({
+          success: false,
+          message: 'Declaration must be accepted before submission.'
+        })).setMimeType(ContentService.MimeType.JSON);
+      }
+
       rowData = [
         timestamp,
-        e.parameter.studentName || '',
-        e.parameter.email || '',
-        e.parameter.phone || '',
-        e.parameter.class || '',
-        getSelectedSubjects(e)
+        e.parameter.studentFirstName || '',
+        e.parameter.studentLastName || '',
+        e.parameter.birthDate || '',
+        e.parameter.gender || '',
+        e.parameter.schoolName || '',
+        e.parameter.board || '',
+        e.parameter.fatherName || '',
+        e.parameter.motherName || '',
+        e.parameter.parentOccupation || '',
+        e.parameter.annualFamilyIncome || '',
+        e.parameter.permanentAddress || '',
+        e.parameter.emailAddress || '',
+        e.parameter.mobileNumber || '',
+        e.parameter.mountAbuResident || '',
+        e.parameter.declarationAccepted || '',
+        e.parameter.registrationFeeTransactionId || '',
+        e.parameter.monthlyFeeTransactionId || ''
       ];
     }
     

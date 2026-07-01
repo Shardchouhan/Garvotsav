@@ -5,7 +5,7 @@
 
 // TODO: Replace with your deployed Google Apps Script Web App URL
 const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzncshXVTws9j4s5MaAeFwZGe8lYLOKPPlDqGWgaO0wn-UjuldbfOnCZGTlwjr0QrA/exec";
-const USE_MOCK_DATA = false; // Set to true only when testing without Google Apps Script
+const USE_MOCK_DATA = false; // Set to false when connecting real backend
 
 const MockData = {
     courses: [
@@ -26,7 +26,7 @@ const MockData = {
             name: 'Sh. Devichand Chouhan', 
             subject: 'Science', 
             exp: '17+ Years', 
-            img: '../assets/images/Science.png',
+            img: '../assets/images/Science.jpeg',
             title: 'Unlock the World of Science.',
             desc: 'Science is everywhere. We create a learning environment where concepts come alive through practicals, experiments, and real-world examples. Here, students do not just memorise — they understand, apply, and grow.'
         },
@@ -34,7 +34,7 @@ const MockData = {
             name: 'Sh. Dashrath Kanojia', 
             subject: 'Mathematics', 
             exp: '21+ Years', 
-            img: '../assets/images/Mathematics.png',
+            img: '../assets/images/Mathematics.jpeg',
             title: 'Unlock Your Mathematical Potential',
             desc: 'Mathematics is not just about numbers — it is about understanding. We focus on building a rock-solid foundation, breaking down complex ideas into simple steps, and helping every student solve problems with confidence.'
         }
@@ -49,12 +49,10 @@ const MockData = {
 
 const GarvotsavAPI = {
     async fetchSheetData(sheetName) {
-        const mockKey = sheetName.toLowerCase();
-
         if (USE_MOCK_DATA) {
             return new Promise(resolve => {
                 setTimeout(() => {
-                    resolve(MockData[mockKey] || []);
+                    resolve(MockData[sheetName.toLowerCase()] || []);
                 }, 800); // Simulate network delay
             });
         }
@@ -63,15 +61,11 @@ const GarvotsavAPI = {
             const response = await fetch(`${APPS_SCRIPT_URL}?action=getData&sheet=${sheetName}`);
             if (!response.ok) throw new Error('Network response was not ok');
             const data = await response.json();
-
-            if (Array.isArray(data) && data.length > 0) {
-                return data;
-            }
-
-            return MockData[mockKey] || [];
+            if (Array.isArray(data) && data.length > 0) return data;
+            return MockData[sheetName.toLowerCase()] || [];
         } catch (error) {
             console.error(`Error fetching ${sheetName}:`, error);
-            return MockData[mockKey] || [];
+            return MockData[sheetName.toLowerCase()] || [];
         }
     },
 
