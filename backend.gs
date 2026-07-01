@@ -47,6 +47,19 @@ function doPost(e) {
       .setMimeType(ContentService.MimeType.JSON);
 }
 
+// Helper: Accept single or multiple selected subjects and save them cleanly in one cell
+function getSelectedSubjects(e) {
+  if (e.parameters && e.parameters.subject && e.parameters.subject.length) {
+    return e.parameters.subject.join(', ');
+  }
+
+  if (e.parameters && e.parameters['subject[]'] && e.parameters['subject[]'].length) {
+    return e.parameters['subject[]'].join(', ');
+  }
+
+  return e.parameter.subject || '';
+}
+
 // Helper: Get data from a specific sheet as an array of objects
 function getSheetData(sheetName) {
   try {
@@ -88,7 +101,7 @@ function handleFormSubmission(e, sheetName) {
       if (sheetName === 'Contact') {
         sheet.appendRow(['Timestamp', 'Name', 'Email', 'Phone', 'Subject', 'Message']);
       } else {
-        sheet.appendRow(['Timestamp', 'StudentName', 'Email', 'Phone', 'Class', 'Subject']);
+        sheet.appendRow(['Timestamp', 'StudentName', 'Email', 'Phone', 'Class', 'Subjects']);
       }
     }
     
@@ -112,7 +125,7 @@ function handleFormSubmission(e, sheetName) {
         e.parameter.email || '',
         e.parameter.phone || '',
         e.parameter.class || '',
-        e.parameter.subject || ''
+        getSelectedSubjects(e)
       ];
     }
     

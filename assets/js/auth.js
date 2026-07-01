@@ -16,7 +16,7 @@ document.addEventListener('DOMContentLoaded', () => {
             return /^[6-9]\d{9}$/.test(value.trim()) ? '' : 'Please enter a valid 10 digit phone number.';
         },
         applyingClass: (value) => value ? '' : 'Please select the class you are applying for.',
-        subject: (value) => value ? '' : 'Please select a subject.',
+        subject: (_value, form) => form.querySelectorAll('[name="subject"]:checked').length ? '' : 'Please select at least one subject.',
         password: (value) => {
             if (!value) return 'Password is required.';
             return value.length >= 6 ? '' : 'Password must be at least 6 characters.';
@@ -31,8 +31,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const setError = (input, message) => {
         const field = input.closest('.auth-field');
         const error = field?.querySelector('.auth-error');
-        input.classList.toggle('is-invalid', Boolean(message));
-        input.setAttribute('aria-invalid', Boolean(message).toString());
+        const subjectGroup = input.name === 'subject' ? field?.querySelector('[data-subject-group]') : null;
+        const errorTarget = subjectGroup || input;
+        errorTarget.classList.toggle('is-invalid', Boolean(message));
+        errorTarget.setAttribute('aria-invalid', Boolean(message).toString());
         if (error) {
             error.textContent = message;
         }
@@ -65,7 +67,12 @@ document.addEventListener('DOMContentLoaded', () => {
         inputs.forEach((input) => {
             input.addEventListener('blur', () => validateInput(input, form));
             input.addEventListener('input', () => {
-                if (input.classList.contains('is-invalid')) {
+                const field = input.closest('.auth-field');
+                const subjectGroup = input.name === 'subject' ? field?.querySelector('[data-subject-group]') : null;
+                if (input.classList.contains('is-invalid') || subjectGroup?.classList.contains('is-invalid')) {
+                    validateInput(input, form);
+                }
+                if (input.name === 'subject') {
                     validateInput(input, form);
                 }
 
@@ -81,9 +88,16 @@ document.addEventListener('DOMContentLoaded', () => {
         form.addEventListener('submit', async (event) => {
             event.preventDefault();
 
-            const isValid = Array.from(inputs).every((input) => validateInput(input, form));
+            const validatedNames = new Set();
+            const isValid = Array.from(inputs).every((input) => {
+                if (input.name === 'subject') {
+                    if (validatedNames.has(input.name)) return true;
+                    validatedNames.add(input.name);
+                }
+                return validateInput(input, form);
+            });
             if (!isValid) {
-                const firstInvalid = form.querySelector('.is-invalid');
+                const firstInvalid = form.querySelector('.is-invalid input, .is-invalid');
                 firstInvalid?.focus();
                 return;
             }
@@ -101,7 +115,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 formData.append('email', form.querySelector('[name="email"]')?.value.trim() || '');
                 formData.append('phone', form.querySelector('[name="phone"]')?.value.trim() || '');
                 formData.append('class', form.querySelector('[name="applyingClass"]')?.value || '');
-                formData.append('subject', form.querySelector('[name="subject"]')?.value || '');
+                const selectedSubjects = Array.from(form.querySelectorAll('[name="subject"]:checked')).map(input => input.value);
+                formData.append('subject', selectedSubjects.join(', '));
 
                 try {
                     const response = await GarvotsavAPI.submitForm(form.dataset.submitAction, formData);

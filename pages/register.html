@@ -79,12 +79,17 @@
                                 </div>
 
                                 <div class="auth-field">
-                                    <label class="form-label" for="subject">Subject *</label>
-                                    <select class="form-select" id="subject" name="subject">
-                                        <option value="">Select subject</option>
-                                        <option value="Mathematics">Mathematics</option>
-                                        <option value="Science">Science</option>
-                                    </select>
+                                    <label class="form-label">Subjects *</label>
+                                    <div class="subject-options" data-subject-group>
+                                        <label class="subject-option">
+                                            <input type="checkbox" name="subject" value="Mathematics">
+                                            <span>Mathematics</span>
+                                        </label>
+                                        <label class="subject-option">
+                                            <input type="checkbox" name="subject" value="Science">
+                                            <span>Science</span>
+                                        </label>
+                                    </div>
                                     <div class="auth-error" aria-live="polite"></div>
                                 </div>
 
