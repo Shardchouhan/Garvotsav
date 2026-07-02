@@ -12,6 +12,7 @@ document.addEventListener('DOMContentLoaded', () => {
         birthDate: 'Birth Date',
         gender: 'Gender',
         schoolName: 'School Name',
+        classGrade: 'Class',
         board: 'Board',
         fatherName: "Father's Name",
         motherName: "Mother's Name",
@@ -125,8 +126,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 throw new Error(response.message || 'Registration failed. Please try again.');
             }
 
-            showAlert('success', '<i class="fa-solid fa-circle-check me-2"></i> Registration submitted successfully!');
             form.reset();
+            const popup = document.getElementById('successPopupReg');
+            if (popup) popup.classList.add('active');
         } catch (error) {
             showAlert('danger', `<i class="fa-solid fa-triangle-exclamation me-2"></i> ${error.message || 'Registration failed. Please try again.'}`);
         } finally {

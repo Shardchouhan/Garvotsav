@@ -4,7 +4,8 @@
  */
 
 // TODO: Replace with your deployed Google Apps Script Web App URL
-const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycby3q5qiHuEtNaiANy6KEIuJ5G6arHESn148_JUrGFUjsE029Mz5uaFFVk9hnjaxjcw/exec";
+const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbx66nyh2M_i6t3nri-p3XReOjhWu0k6tXYuRjMtibF6RaO00dbrHEin7ndeZ03gGdM/exec";
+
 const USE_MOCK_DATA = false; // Set to false when connecting real backend
 
 const MockData = {
