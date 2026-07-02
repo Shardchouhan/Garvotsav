@@ -462,7 +462,7 @@ a:hover {
 }
 
 .hero-image-panel {
-  width: min(100%, 430px);
+  width: min(100%, 550px);
   margin-left: auto;
   margin-right: auto;
 }
@@ -470,7 +470,7 @@ a:hover {
 .hero-image {
   display: block;
   width: 100%;
-  aspect-ratio: 4 / 3;
+  aspect-ratio: 1 / 1;
   object-fit: cover;
   object-position: center;
   box-shadow: 0 10px 30px rgba(0,0,0,0.5);
