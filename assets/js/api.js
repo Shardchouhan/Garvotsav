@@ -4,7 +4,7 @@
  */
 
 // TODO: Replace with your deployed Google Apps Script Web App URL
-const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbx66nyh2M_i6t3nri-p3XReOjhWu0k6tXYuRjMtibF6RaO00dbrHEin7ndeZ03gGdM/exec";
+const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxIVQX-5nit2adF2ktO6n_fTlpiEJ6_EAdTXOV9UGKG-NnzadnQ9QYDpeOL_HO0iK8/exec";
 
 const USE_MOCK_DATA = false; // Set to false when connecting real backend
 
@@ -82,7 +82,18 @@ const GarvotsavAPI = {
             const data = new URLSearchParams();
             data.append('action', formType);
             for (const [key, value] of formData.entries()) {
-                data.append(key, value);
+                if (value instanceof File && value.size > 0) {
+                    const base64 = await new Promise((resolve) => {
+                        const reader = new FileReader();
+                        reader.onload = () => resolve(reader.result.split(',')[1]);
+                        reader.readAsDataURL(value);
+                    });
+                    data.append(key + 'Base64', base64);
+                    data.append(key + 'MimeType', value.type);
+                    data.append(key + 'Name', value.name);
+                } else if (!(value instanceof File)) {
+                    data.append(key, value);
+                }
             }
 
             if (/script\.google\.com\/macros\/s\//i.test(APPS_SCRIPT_URL)) {

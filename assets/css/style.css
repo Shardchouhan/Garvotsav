@@ -313,6 +313,50 @@ a:hover {
   line-height: 1.7;
 }
 
+/* Declaration card - dark box with quoted text */
+.declaration-card {
+  padding: 1rem 1.25rem;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.07);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: var(--white);
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+
+/* Individual Yes/No radio row styled like the screenshot */
+.declaration-radio-row {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  padding: 0.75rem 1.1rem;
+  margin-bottom: 0.5rem;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: var(--white);
+  cursor: pointer;
+  transition: background 0.2s, border-color 0.2s;
+  font-size: 1rem;
+}
+
+.declaration-radio-row:hover {
+  background: rgba(124, 92, 252, 0.15);
+  border-color: rgba(124, 92, 252, 0.4);
+}
+
+.declaration-radio-row input[type="radio"] {
+  width: 18px;
+  height: 18px;
+  accent-color: var(--primary-accent);
+  flex-shrink: 0;
+}
+
+.declaration-radio-row input[type="radio"]:checked + span {
+  color: var(--primary-accent);
+  font-weight: 600;
+}
+
 .auth-field.has-error .radio-options label {
   border-color: #ff6b6b;
 }
@@ -1224,3 +1268,189 @@ a:hover {
   font-size: 1.5rem;
   pointer-events: none;
 }
+
+/* ─── Screenshot Upload Dropzone ─── */
+.screenshot-dropzone {
+  border: 2px dashed rgba(124, 92, 252, 0.4);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.03);
+  transition: border-color 0.25s, background 0.25s;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.screenshot-dropzone:hover,
+.screenshot-dropzone.drag-over {
+  border-color: rgba(124, 92, 252, 0.85);
+  background: rgba(124, 92, 252, 0.07);
+}
+
+.screenshot-dropzone-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 1rem;
+  text-align: center;
+  color: var(--text-muted, #aaa);
+}
+
+.screenshot-upload-icon {
+  font-size: 2.5rem;
+  color: rgba(124, 92, 252, 0.7);
+  margin-bottom: 0.75rem;
+}
+
+/* Preview state */
+.screenshot-preview {
+  padding: 1rem 1.25rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.screenshot-preview img {
+  width: 90px;
+  height: 70px;
+  object-fit: cover;
+  border-radius: 8px;
+  border: 1px solid rgba(255,255,255,0.15);
+  flex-shrink: 0;
+}
+
+.screenshot-preview-info {
+  flex: 1;
+  color: var(--white);
+  font-size: 0.9rem;
+  word-break: break-all;
+}
+
+.screenshot-remove-btn {
+  background: rgba(255, 80, 80, 0.15);
+  border: 1px solid rgba(255, 80, 80, 0.35);
+  color: #ff7070;
+  border-radius: 8px;
+  padding: 0.35rem 0.85rem;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: background 0.2s;
+  white-space: nowrap;
+}
+
+.screenshot-remove-btn:hover {
+  background: rgba(255, 80, 80, 0.3);
+}
+
+/* ============================================================
+   RESPONSIVE — FULL BREAKPOINT COVERAGE
+   ============================================================ */
+
+/* ── Tablet & below (≤992px) ─────────────────────────────── */
+@media (max-width: 992px) {
+  .navbar-glass { padding: 0.85rem 0; }
+  .navbar-collapse {
+    background: rgba(13,13,13,0.97);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255,255,255,0.07);
+    border-radius: var(--radius-md);
+    padding: 1rem 1.25rem;
+    margin-top: 0.5rem;
+  }
+  .nav-link { margin: 0.25rem 0; }
+  .navbar-collapse .ms-lg-3 { margin-top: 0.75rem; }
+  .navbar-collapse .btn-premium { display: block; text-align: center; }
+  .hero-section { padding-top: 70px; }
+  .hero-title { font-size: clamp(2rem, 6vw, 3rem); }
+  .hero-subtitle { font-size: 1rem; }
+  .hero-image-panel { width: min(100%, 420px); margin-top: 2rem; }
+  .registration-grid { grid-template-columns: repeat(2, 1fr); }
+  .footer-main { flex-wrap: wrap; }
+}
+
+/* ── Small tablet (≤768px) ────────────────────────────────── */
+@media (max-width: 768px) {
+  .section-padding { padding: clamp(2.5rem, 6vw, 4rem) 0; }
+  .hero-section { padding-top: 75px; text-align: center; }
+  .hero-subtitle { max-width: 100%; margin-left: auto; margin-right: auto; }
+  .hero-content .d-flex { justify-content: center !important; flex-wrap: wrap; }
+  .hero-image-panel { width: min(100%, 340px); margin: 2rem auto 0; }
+  .auth-card, .registration-card { padding: 1.25rem; }
+  .registration-grid { grid-template-columns: 1fr; }
+  .registration-span { grid-column: 1; }
+  .radio-options { grid-template-columns: 1fr; }
+  .payment-qr-card { padding: 1.25rem !important; }
+  .payment-qr-card img { width: 140px !important; height: 140px !important; }
+  .screenshot-dropzone-inner { padding: 1.5rem 0.75rem; }
+  .screenshot-upload-icon { font-size: 2rem; }
+  .screenshot-preview { flex-direction: column; align-items: flex-start; }
+  .screenshot-preview img { width: 100%; height: auto; max-height: 160px; }
+  .declaration-radio-row { padding: 0.65rem 0.85rem; font-size: 0.9rem; }
+  .declaration-card { font-size: 0.9rem; padding: 0.85rem 1rem; }
+  .stat-card { padding: 1rem; }
+  .stat-number { font-size: clamp(1.75rem, 5vw, 2.5rem); }
+  .map-embed { height: 260px; }
+  .footer-main { flex-direction: column; gap: 2rem; padding: 2.5rem 0 2rem; }
+  .footer-brand, .footer-links, .footer-contact { flex-basis: 100%; }
+  .blob-img-wrap { width: min(100%, 260px); margin: 0 auto; }
+  .course-filter-tabs { border-radius: var(--radius-lg); padding: 0.35rem; }
+  .course-filter-tabs .nav-item { flex: 1 1 calc(50% - 0.5rem); }
+  #courseTabs.course-filter-tabs .nav-link { width: 100%; justify-content: center; font-size: 0.85rem; }
+  .success-popup { padding: 2rem 1.25rem; }
+  .success-popup-icon { width: 70px; height: 70px; font-size: 1.75rem; }
+  .success-popup h3 { font-size: 1.3rem; }
+  .section-title h2 { font-size: clamp(1.6rem, 5vw, 2rem); }
+  .section-title { margin-bottom: 2rem; }
+  .glass-card { padding: 1.25rem; }
+  .highlight-card { padding: 1.25rem; }
+  .form-control, .form-select { padding: 0.65rem 0.85rem; }
+}
+
+/* ── Mobile (≤576px) ─────────────────────────────────────── */
+@media (max-width: 576px) {
+  body { font-size: 0.92rem; }
+  .navbar-brand { font-size: 1.2rem; }
+  .hero-title { font-size: clamp(1.75rem, 7vw, 2.5rem); }
+  .hero-section { padding-top: 70px; }
+  .hero-image-panel { width: 100%; }
+  .auth-section { padding: 5rem 0 2rem; }
+  .auth-card, .registration-card {
+    padding: 1rem 0.85rem;
+    border-radius: var(--radius-md);
+  }
+  .registration-group { padding: 1rem 0; }
+  .registration-group h2 { font-size: 1rem; }
+  .auth-field .form-control,
+  .auth-field .form-select { min-height: 46px; font-size: 0.88rem; }
+  .payment-qr-card h4 { font-size: 1rem; }
+  .payment-qr-card img { width: 120px !important; height: 120px !important; }
+  .payment-qr-card .fs-5 { font-size: 0.9rem !important; }
+  .btn-premium { padding: 0.65rem 1.4rem; font-size: 0.85rem; }
+  .course-card-body { padding: 1rem; }
+  .course-card h4 { font-size: 1.1rem; }
+  .stat-number { font-size: 2rem; }
+  .stat-label { font-size: 0.9rem; }
+  .footer-bottom { font-size: 0.78rem; }
+  .social-icons a { width: 38px; height: 38px; font-size: 1rem; }
+  .course-filter-tabs .nav-item { flex: 1 1 100%; }
+  .map-embed { height: 220px; }
+  .success-popup { padding: 1.75rem 1rem; border-radius: var(--radius-md); }
+  .success-popup-close { padding: 0.65rem 1.75rem; }
+  .screenshot-dropzone-inner { padding: 1.25rem 0.5rem; }
+  .screenshot-dropzone-inner p { font-size: 0.82rem; }
+  #screenshotBrowseBtn { padding: 0.5rem 1.2rem !important; font-size: 0.82rem; }
+  .declaration-radio-row { font-size: 0.85rem; padding: 0.6rem 0.75rem; }
+  .declaration-card { font-size: 0.85rem; }
+  .section-title h2 { font-size: 1.5rem; }
+  .blob-img-wrap { width: 220px; }
+  .program-header h2 { font-size: clamp(1.5rem, 6vw, 2rem); }
+}
+
+/* ── Landscape small phones ───────────────────────────────── */
+@media (max-height: 667px) and (max-width: 576px) {
+  .auth-section { padding-top: 4.5rem; }
+  .hero-section { min-height: auto; padding-bottom: 2rem; }
+}
+
+

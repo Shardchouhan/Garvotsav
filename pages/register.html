@@ -72,7 +72,6 @@
                                         <div class="radio-options">
                                             <label><input type="radio" name="gender" value="Male" required> Male</label>
                                             <label><input type="radio" name="gender" value="Female"> Female</label>
-                                            <label><input type="radio" name="gender" value="Other"> Other</label>
                                         </div>
                                         <div class="auth-error" aria-live="polite"></div>
                                     </div>
@@ -91,6 +90,13 @@
                                         <label class="form-label" for="classGrade">Class *</label>
                                         <select class="form-select" id="classGrade" name="classGrade" required>
                                             <option value="">Select class</option>
+                                            <option value="1">Class 1</option>
+                                            <option value="2">Class 2</option>
+                                            <option value="3">Class 3</option>
+                                            <option value="4">Class 4</option>
+                                            <option value="5">Class 5</option>
+                                            <option value="6">Class 6</option>
+                                            <option value="7">Class 7</option>
                                             <option value="8">Class 8</option>
                                             <option value="9">Class 9</option>
                                             <option value="10">Class 10</option>
@@ -126,11 +132,6 @@
                                     <div class="auth-field">
                                         <label class="form-label" for="parentOccupation">Parent's Occupation *</label>
                                         <input type="text" class="form-control" id="parentOccupation" name="parentOccupation" required>
-                                        <div class="auth-error" aria-live="polite"></div>
-                                    </div>
-                                    <div class="auth-field">
-                                        <label class="form-label" for="annualFamilyIncome">Annual Family Income *</label>
-                                        <input type="number" class="form-control" id="annualFamilyIncome" name="annualFamilyIncome" min="0" step="1" required>
                                         <div class="auth-error" aria-live="polite"></div>
                                     </div>
                                 </div>
@@ -171,27 +172,103 @@
 
                             <section class="registration-group">
                                 <h2>Declaration</h2>
-                                <p class="declaration-text">"I hereby declare that the information provided above is true to the best of my knowledge. Registration Fee is ₹1200."</p>
-                                <div class="auth-field">
-                                    <div class="radio-options">
-                                        <label><input type="radio" name="declarationAccepted" value="Yes" required> Yes</label>
-                                        <label><input type="radio" name="declarationAccepted" value="No"> No</label>
-                                    </div>
+
+                                <!-- Declaration 1 -->
+                                <div class="declaration-card mb-2">"I hereby declare that the information provided is true and correct to the best of my knowledge."</div>
+                                <div class="auth-field mb-4">
+                                    <label class="declaration-radio-row">
+                                        <input type="radio" name="declarationInfoTrue" value="Yes" required>
+                                        <span>Yes</span>
+                                    </label>
+                                    <label class="declaration-radio-row">
+                                        <input type="radio" name="declarationInfoTrue" value="No">
+                                        <span>No</span>
+                                    </label>
+                                    <div class="auth-error" aria-live="polite"></div>
+                                </div>
+
+                                <!-- Declaration 2 -->
+                                <div class="declaration-card mb-2">"I understand that the monthly tuition fee must be paid in advance every month."</div>
+                                <div class="auth-field mb-4">
+                                    <label class="declaration-radio-row">
+                                        <input type="radio" name="declarationFeeAdvance" value="Yes" required>
+                                        <span>Yes</span>
+                                    </label>
+                                    <label class="declaration-radio-row">
+                                        <input type="radio" name="declarationFeeAdvance" value="No">
+                                        <span>No</span>
+                                    </label>
                                     <div class="auth-error" aria-live="polite"></div>
                                 </div>
                             </section>
 
+
                             <section class="registration-group">
                                 <h2>Payment Details</h2>
-                                <div class="registration-grid">
+                                <p class="mb-3 text-muted">Monthly Fee is to be paid in advance every month.</p>
+
+                                <div class="auth-field mb-4">
+                                    <label class="form-label">Payment Mode *</label>
+                                    <div class="radio-options custom-payment-modes">
+                                        <label class="payment-mode-label">
+                                            <input type="radio" name="paymentMode" value="Online" required>
+                                            Online Payment (UPI)
+                                        </label>
+                                        <label class="payment-mode-label">
+                                            <input type="radio" name="paymentMode" value="Cash">
+                                            Cash Payment
+                                        </label>
+                                    </div>
+                                    <div class="auth-error" aria-live="polite"></div>
+                                </div>
+
+                                <!-- Online Payment Details -->
+                                <div id="onlinePaymentDetails" class="payment-details-block" style="display: none;">
+                                    <div class="payment-qr-card text-center mb-4 p-4 rounded-3" style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);">
+                                        <h4 class="mb-1">Pay Monthly Fee in Advance</h4>
+                                        <p class="text-muted small mb-3">Scan the QR code or use the UPI ID below to pay your monthly fee.</p>
+                                        <div class="qr-code-placeholder mb-3 d-inline-block p-2 bg-white rounded">
+                                            <img src="../assets/images/QR.jpeg" alt="UPI QR Code" style="width: 180px; height: 180px; object-fit: cover;">
+                                        </div>
+                                        <p class="mb-0 fs-5"><strong>UPI ID:</strong> <span class="text-primary-accent">divkumar61-1@okhdfcbank</span></p>
+                                    </div>
+
                                     <div class="auth-field">
-                                        <label class="form-label" for="registrationFeeTransactionId">Registration Fee (₹1200) - Transaction ID *</label>
-                                        <input type="text" class="form-control" id="registrationFeeTransactionId" name="registrationFeeTransactionId" required>
+                                        <label class="form-label">Upload Payment Screenshot <span class="text-danger">*</span></label>
+
+                                        <!-- Drop Zone -->
+                                        <div class="screenshot-dropzone" id="screenshotDropzone">
+                                            <input type="file" id="paymentScreenshot" name="paymentScreenshot" accept="image/*" style="display:none;">
+                                            <div class="screenshot-dropzone-inner" id="screenshotDropzoneInner">
+                                                <i class="fa-solid fa-cloud-arrow-up screenshot-upload-icon"></i>
+                                                <p class="mb-1">Drag &amp; drop your screenshot here</p>
+                                                <p class="text-muted small mb-3">or</p>
+                                                <button type="button" class="btn-premium btn-secondary-outline px-4" id="screenshotBrowseBtn">Browse File</button>
+                                                <p class="text-muted small mt-2 mb-0">PNG, JPG, JPEG (Max 2MB recommended)</p>
+                                            </div>
+
+                                            <!-- Preview Area -->
+                                            <div class="screenshot-preview" id="screenshotPreview" style="display:none;">
+                                                <img id="screenshotPreviewImg" src="" alt="Payment Screenshot Preview">
+                                                <div class="screenshot-preview-info">
+                                                    <i class="fa-solid fa-circle-check text-success me-2"></i>
+                                                    <span id="screenshotFileName">screenshot.png</span>
+                                                </div>
+                                                <button type="button" class="screenshot-remove-btn" id="screenshotRemoveBtn">
+                                                    <i class="fa-solid fa-xmark"></i> Remove
+                                                </button>
+                                            </div>
+                                        </div>
                                         <div class="auth-error" aria-live="polite"></div>
                                     </div>
+                                </div>
+
+                                <!-- Cash Payment Details -->
+                                <div id="cashPaymentDetails" class="payment-details-block" style="display: none;">
                                     <div class="auth-field">
-                                        <label class="form-label" for="monthlyFeeTransactionId">Monthly Fee (Paid in Advance) - Transaction ID *</label>
-                                        <input type="text" class="form-control" id="monthlyFeeTransactionId" name="monthlyFeeTransactionId" required>
+                                        <div class="declaration-card">
+                                            I understand that my monthly fee must be paid in advance and my payment will be verified by Garvotsav Tuition Classes.
+                                        </div>
                                         <div class="auth-error" aria-live="polite"></div>
                                     </div>
                                 </div>
@@ -239,6 +316,90 @@
                 if (e.target === _popupReg) _popupReg.classList.remove('active');
             });
         }
+
+        // ── Screenshot Upload Widget ──
+        (function () {
+            const dropzone      = document.getElementById('screenshotDropzone');
+            const fileInput     = document.getElementById('paymentScreenshot');
+            const browseBtn     = document.getElementById('screenshotBrowseBtn');
+            const dropzoneInner = document.getElementById('screenshotDropzoneInner');
+            const preview       = document.getElementById('screenshotPreview');
+            const previewImg    = document.getElementById('screenshotPreviewImg');
+            const fileName      = document.getElementById('screenshotFileName');
+            const removeBtn     = document.getElementById('screenshotRemoveBtn');
+
+            if (!dropzone) return;
+
+            function showPreview(file) {
+                if (!file || !file.type.startsWith('image/')) return;
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    previewImg.src = e.target.result;
+                    fileName.textContent = file.name + ' (' + (file.size / 1024).toFixed(1) + ' KB)';
+                    dropzoneInner.style.display = 'none';
+                    preview.style.display = 'flex';
+                };
+                reader.readAsDataURL(file);
+            }
+
+            function resetDropzone() {
+                fileInput.value = '';
+                previewImg.src = '';
+                preview.style.display = 'none';
+                dropzoneInner.style.display = 'flex';
+            }
+
+            // Click anywhere on dropzone → open file picker
+            dropzone.addEventListener('click', (e) => {
+                if (e.target === removeBtn || removeBtn.contains(e.target)) return;
+                fileInput.click();
+            });
+
+            // Browse button
+            browseBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                fileInput.click();
+            });
+
+            // File selected via picker
+            fileInput.addEventListener('change', () => {
+                if (fileInput.files[0]) {
+                    showPreview(fileInput.files[0]);
+                    // Clear error state
+                    dropzone.style.borderColor = '';
+                    dropzone.style.background = '';
+                    const errBox = dropzone.closest('.auth-field')?.querySelector('.auth-error');
+                    if (errBox) errBox.textContent = '';
+                }
+            });
+
+            // Remove button
+            removeBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                resetDropzone();
+            });
+
+            // Drag & Drop
+            dropzone.addEventListener('dragover', (e) => {
+                e.preventDefault();
+                dropzone.classList.add('drag-over');
+            });
+            dropzone.addEventListener('dragleave', () => {
+                dropzone.classList.remove('drag-over');
+            });
+            dropzone.addEventListener('drop', (e) => {
+                e.preventDefault();
+                dropzone.classList.remove('drag-over');
+                const file = e.dataTransfer.files[0];
+                if (file && file.type.startsWith('image/')) {
+                    // Assign to the file input
+                    const dt = new DataTransfer();
+                    dt.items.add(file);
+                    fileInput.files = dt.files;
+                    showPreview(file);
+                }
+            });
+        })();
     </script>
 </body>
 </html>

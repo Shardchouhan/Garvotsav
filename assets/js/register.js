@@ -17,13 +17,12 @@ document.addEventListener('DOMContentLoaded', () => {
         fatherName: "Father's Name",
         motherName: "Mother's Name",
         parentOccupation: "Parent's Occupation",
-        annualFamilyIncome: 'Annual Family Income',
         permanentAddress: 'Permanent Address',
         mobileNumber: 'Mobile Number',
         mountAbuResident: 'Residence Information',
-        declarationAccepted: 'Declaration',
-        registrationFeeTransactionId: 'Registration Fee Transaction ID',
-        monthlyFeeTransactionId: 'Monthly Fee Transaction ID'
+        declarationInfoTrue: 'Information Declaration',
+        declarationFeeAdvance: 'Fee Advance Declaration',
+        paymentMode: 'Payment Mode'
     };
 
     const getFieldWrap = (input) => input.closest('.auth-field');
@@ -42,16 +41,14 @@ document.addEventListener('DOMContentLoaded', () => {
     const validateInput = (input) => {
         if (!input.name || input.type === 'radio') return true;
         let message = '';
-        const value = input.value.trim();
 
+        const value = input.value.trim();
         if (input.required && !value) {
             message = `${fieldLabels[input.name] || 'This field'} is required.`;
         } else if (input.type === 'email' && value && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) {
             message = 'Please enter a valid email address.';
-        } else if (input.name === 'mobileNumber' && !/^[6-9]\d{9}$/.test(value)) {
+        } else if (input.name === 'mobileNumber' && value && !/^[6-9]\d{9}$/.test(value)) {
             message = 'Please enter a valid 10 digit mobile number.';
-        } else if (input.name === 'annualFamilyIncome' && Number(value) < 0) {
-            message = 'Annual Family Income cannot be negative.';
         }
 
         setError(input, message);
@@ -66,8 +63,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (!checked) {
             message = `${fieldLabels[name] || 'This option'} is required.`;
-        } else if (name === 'declarationAccepted' && checked.value !== 'Yes') {
-            message = 'Please select Yes to submit the registration form.';
+        } else if ((name === 'declarationInfoTrue' || name === 'declarationFeeAdvance') && checked.value !== 'Yes') {
+            message = 'You must select Yes to proceed.';
         }
 
         radios.forEach((radio) => {
@@ -91,15 +88,43 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     form.querySelectorAll('input:not([type="radio"]), select, textarea').forEach((input) => {
-        input.addEventListener('blur', () => validateInput(input));
-        input.addEventListener('input', () => {
-            if (input.classList.contains('is-invalid')) validateInput(input);
+        const events = ['blur', 'input'];
+        events.forEach(eventType => {
+            input.addEventListener(eventType, () => {
+                if (eventType === 'input' && !input.classList.contains('is-invalid')) return;
+                validateInput(input);
+            });
         });
     });
 
-    ['gender', 'mountAbuResident', 'declarationAccepted'].forEach((name) => {
+    ['gender', 'mountAbuResident', 'declarationInfoTrue', 'declarationFeeAdvance', 'paymentMode'].forEach((name) => {
         getRadioGroup(name).forEach((radio) => {
-            radio.addEventListener('change', () => validateRadioGroup(name));
+            radio.addEventListener('change', () => {
+                validateRadioGroup(name);
+
+                // Payment mode toggle
+                if (name === 'paymentMode') {
+                    const onlinePaymentDetails = document.getElementById('onlinePaymentDetails');
+                    const cashPaymentDetails = document.getElementById('cashPaymentDetails');
+
+                    if (radio.value === 'Online') {
+                        onlinePaymentDetails.style.display = 'block';
+                        cashPaymentDetails.style.display = 'none';
+                        // Clear screenshot error when switching back
+                        const screenshotDropzone = document.getElementById('screenshotDropzone');
+                        if (screenshotDropzone) {
+                            screenshotDropzone.style.borderColor = '';
+                            screenshotDropzone.style.background = '';
+                        }
+                        const screenshotField = screenshotDropzone?.closest('.auth-field');
+                        const errBox = screenshotField?.querySelector('.auth-error');
+                        if (errBox) errBox.textContent = '';
+                    } else if (radio.value === 'Cash') {
+                        onlinePaymentDetails.style.display = 'none';
+                        cashPaymentDetails.style.display = 'block';
+                    }
+                }
+            });
         });
     });
 
@@ -107,11 +132,38 @@ document.addEventListener('DOMContentLoaded', () => {
         event.preventDefault();
         alertBox.classList.add('d-none');
 
-        const regularInputs = Array.from(form.querySelectorAll('input:not([type="radio"]), select, textarea'));
-        const isRegularValid = regularInputs.every(validateInput);
-        const isRadioValid = ['gender', 'mountAbuResident', 'declarationAccepted'].every(validateRadioGroup);
+        const regularInputs = Array.from(form.querySelectorAll('input:not([type="radio"]), select, textarea')).filter(input => {
+            if (!input.required && !input.value) return false;
+            const wrap = input.closest('.payment-details-block');
+            if (wrap && wrap.style.display === 'none') return false;
+            return true;
+        });
 
-        if (!isRegularValid || !isRadioValid) {
+        const isRegularValid = regularInputs.map(validateInput).every(v => v);
+        const isRadioValid = ['gender', 'mountAbuResident', 'declarationInfoTrue', 'declarationFeeAdvance', 'paymentMode'].map(validateRadioGroup).every(v => v);
+
+        // Screenshot required for Online payment
+        const paymentModeSelected = form.querySelector('[name="paymentMode"]:checked');
+        const screenshotInput = document.getElementById('paymentScreenshot');
+        const screenshotDropzone = document.getElementById('screenshotDropzone');
+        const screenshotField = screenshotDropzone?.closest('.auth-field');
+        const screenshotErrorBox = screenshotField?.querySelector('.auth-error');
+        let isScreenshotValid = true;
+
+        if (paymentModeSelected && paymentModeSelected.value === 'Online') {
+            if (!screenshotInput || !screenshotInput.files || screenshotInput.files.length === 0) {
+                isScreenshotValid = false;
+                if (screenshotDropzone) {
+                    screenshotDropzone.style.borderColor = '#ff6b6b';
+                    screenshotDropzone.style.background = 'rgba(255,107,107,0.06)';
+                }
+                if (screenshotErrorBox) screenshotErrorBox.textContent = 'Payment screenshot is required for Online Payment.';
+                screenshotDropzone?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+        }
+
+        if (!isRegularValid || !isRadioValid || !isScreenshotValid) {
+            if (isRegularValid && isRadioValid && !isScreenshotValid) return;
             const firstInvalid = form.querySelector('.is-invalid');
             firstInvalid?.focus();
             return;
@@ -127,6 +179,12 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             form.reset();
+            // Reset dropzone UI
+            const dropzoneInner = document.getElementById('screenshotDropzoneInner');
+            const screenshotPreview = document.getElementById('screenshotPreview');
+            if (dropzoneInner) dropzoneInner.style.display = 'flex';
+            if (screenshotPreview) screenshotPreview.style.display = 'none';
+
             const popup = document.getElementById('successPopupReg');
             if (popup) popup.classList.add('active');
         } catch (error) {

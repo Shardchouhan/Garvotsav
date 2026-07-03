@@ -56,7 +56,7 @@ window.GARVOTSAV_FOOTER_TEMPLATE = `
                     </li>
                     <li>
                         <i class="fa-solid fa-envelope"></i>
-                        <a href="mailto:info@garvotsav.com">info@garvotsav.com</a>
+                        <a href="mailto:info@garvotsav.com">divkumar61@gmail.com</a>
                     </li>
                     <li>
                         <i class="fa-solid fa-clock"></i>
