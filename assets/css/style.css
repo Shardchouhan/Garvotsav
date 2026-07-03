@@ -1155,7 +1155,7 @@ a:hover {
   }
 
   .footer-brand,
-  .footer-contact {
+  .footer-links.footer-contact {
     flex-basis: calc(50% - 1rem);
   }
 

@@ -195,3 +195,32 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 });
+
+window.handleUPIClick = function(e) {
+    e.preventDefault();
+    const upiId = "divkumar61-1@okhdfcbank";
+    const name = "Garvotsav Tuition Classes";
+    const upiUrl = `upi://pay?pa=${upiId}&pn=${encodeURIComponent(name)}`;
+    
+    // Attempt to open the UPI app
+    try {
+        window.location.href = upiUrl;
+    } catch (err) {
+        console.warn("UPI link failed, falling back to copy");
+    }
+    
+    // Also copy to clipboard as a fallback
+    navigator.clipboard.writeText(upiId).then(() => {
+        const feedback = document.getElementById('upiFeedback');
+        if (feedback) {
+            feedback.style.display = 'block';
+            feedback.style.opacity = '1';
+            setTimeout(() => {
+                feedback.style.opacity = '0';
+                setTimeout(() => feedback.style.display = 'none', 300);
+            }, 3000);
+        }
+    }).catch(err => {
+        console.error('Could not copy text: ', err);
+    });
+};

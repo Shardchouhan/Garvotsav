@@ -56,11 +56,11 @@ window.GARVOTSAV_FOOTER_TEMPLATE = `
                     </li>
                     <li>
                         <i class="fa-solid fa-envelope"></i>
-                        <a href="mailto:info@garvotsav.com">divkumar61@gmail.com</a>
+                        <a href="mailto:divkumar61@gmail.com">divkumar61@gmail.com</a>
                     </li>
                     <li>
                         <i class="fa-solid fa-clock"></i>
-                        <span>Monday - Saturday<br>8:00 AM - 8:00 PM</span>
+                        <span>Mon – Sat, 9:00 AM – 7:00 PM</span>
                     </li>
                 </ul>
             </div>
