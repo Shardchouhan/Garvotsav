@@ -1,6 +1,6 @@
 # Garvotsav Tuition Classes
 
-A premium, responsive, and modern website built for **Garvotsav Tuition Classes**, offering concept-based education for Grades 8 to 10 in Math and Science. 
+A premium, responsive, and modern website built for **Garvotsav Tuition Classes**, offering concept-based education for Grades 8 to 10 in Mathematics and Science. 
 
 This website serves as a landing page to showcase courses, testimonials, an image gallery, and a direct registration portal connected to a custom Google Apps Script backend.
 
