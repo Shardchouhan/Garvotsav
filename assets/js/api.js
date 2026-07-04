@@ -27,7 +27,7 @@ const MockData = {
             name: 'Sh. Devichand Chouhan', 
             subject: 'Science', 
             exp: '17+ Years', 
-            img: '../assets/images/Science.jpeg',
+            img: '../assets/images/science1.jpeg',
             title: 'Unlock the World of Science.',
             desc: 'Science is everywhere. We create a learning environment where concepts come alive through practicals, experiments, and real-world examples. Here, students do not just memorise — they understand, apply, and grow.'
         },
