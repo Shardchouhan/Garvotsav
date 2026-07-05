@@ -51,8 +51,4 @@ To connect the forms to your own Google Sheet:
 5. Click **Deploy > New deployment**, select **Web App**, set access to **Anyone**, and deploy.
 6. Copy the resulting Web App URL and paste it into `assets/js/api.js` as the `APPS_SCRIPT_URL` variable.
 
-## 📝 Recent Updates
-- Increased the size and aspect-ratio of the home page hero image and made it visible across all mobile devices.
-- Integrated fully custom, animated "Success" modal popups for the Contact and Registration forms.
-- Reintroduced the "Class/Grade" selection dropdown on the admission form, accurately synchronized with the Google Sheet database.
-- Fixed layout horizontal scrolling overflow issues on mobile browsers.
+#
